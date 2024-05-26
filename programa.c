@@ -9,7 +9,7 @@ int leer_pregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
-    const char *patron = "-?[0-9]{1,10}[\\ ][\\+\\-\\*\\/][\\ ]-?[0-9]{1,10}";
+    const char *patron = "[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]][[:digit:]]{1,10}";
     ret = regcomp(&regex, patron, REG_EXTENDED);
     char msgbuf[LONG_MAX];
     char *p;
@@ -17,8 +17,8 @@ int leer_pregunta(){
     fgets(input, LONG_MAX, stdin); //Hace el input
 
     //Esta sección elimina el \n del fgets
-    if ((p = strchr(input, '\n')) != NULL)
-      *p = '\0';
+    //if ((p = strchr(input, '\n')) != NULL)
+    //  *p = '\0';
 
     if (ret){
         fprintf(stderr, "No se pudo compilar el regex\n");
