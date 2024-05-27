@@ -5,34 +5,58 @@
 
 #define LONG_MAX 256
 
+extern int suma(int a, int b);
+extern int resta(int a, int b);
+
 int nro1, nro2;
-char oper[4];
+char oper_texto[4];
+char oper;
 char str[LONG_MAX];
+int resultado;
+
+//TODO
+int calcularOperacion(int operando1, char operador, int operando2){
+    if (operador == '+'){
+        resultado = suma(operando1, operando2);
+        printf("El resultado es: %d\n", resultado);
+        return resultado;
+        }
+    if (operador == '-'){
+        resultado = resta(operando1, operando2);
+        printf("El resultado es: %d\n", resultado);
+        return resultado;
+        }
+        return 0;
+    }
 
 void identificarNrosYDelim(){
 
     if (strstr(str, " + ") != NULL) {
         printf("Suma detectada!\n");
-        strcpy(oper, " + ");
+        strcpy(oper_texto, " + ");
+        oper = '+';
     } else if (strstr(str, " - ") != NULL){
         printf("Resta detectada!\n");
-        strcpy(oper, " - ");
+        strcpy(oper_texto, " - ");
+        oper = '-';
     } else if (strstr(str, " * ") != NULL) {
         printf("Multiplicación detectada!\n");
-        strcpy(oper, " * ");
+        strcpy(oper_texto, " * ");
+        oper = '*';
     } else if (strstr(str, " / ") != NULL) {
         if (nro2 == 0){
             fprintf(stderr, "No se puede dividir por cero.\n");
             return;
         }
         printf("División detectada!\n");
-        strcpy(oper, " / ");
+        strcpy(oper_texto, " / ");
+        oper = '/';
     } else {
         fprintf(stderr,"No se detecto una operación valida.\n");
     }
 
     /* Consigue el primer token */
-    char* token = strtok(str, oper);
+    char* token = strtok(str, oper_texto);
     
     /* Identifica los otros token */
     int i = 1;
@@ -46,9 +70,9 @@ void identificarNrosYDelim(){
             break;
         }
         i++;
-        token = strtok(NULL, oper);
+        token = strtok(NULL, oper_texto);
     }
-    printf("Nro1 = %d, Nro2 = %d, Operador =%s\n", nro1,nro2,oper);
+    printf("Nro1 = %d, Nro2 = %d, Operador =%c\n", nro1,nro2,oper);
 }
 
 void leer_pregunta(){
@@ -80,11 +104,8 @@ void leer_pregunta(){
     regfree(&regex);
 
     identificarNrosYDelim();
-}
-
-//TODO
-int calcularOperacion(int operando1, char operador, int operando2){
-
+    //printf("oper: %d", oper);
+    calcularOperacion(nro1,oper,nro2);
 }
 
 int main (void){
