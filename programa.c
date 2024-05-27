@@ -6,29 +6,33 @@
 #define LONG_MAX 256
 
 int nro1, nro2;
+char oper[4];
 char str[LONG_MAX];
 
 void identificarNrosYDelim(){
-    char delim[4];
 
     if (strstr(str, " + ") != NULL) {
         printf("Suma detectada!\n");
-        strcpy(delim, " + ");
+        strcpy(oper, " + ");
     } else if (strstr(str, " - ") != NULL){
         printf("Resta detectada!\n");
-        strcpy(delim, " - ");
+        strcpy(oper, " - ");
     } else if (strstr(str, " * ") != NULL) {
         printf("Multiplicación detectada!\n");
-        strcpy(delim, " * ");
+        strcpy(oper, " * ");
     } else if (strstr(str, " / ") != NULL) {
+        if (nro2 == 0){
+            fprintf(stderr, "No se puede dividir por cero.\n");
+            return;
+        }
         printf("División detectada!\n");
-        strcpy(delim, " / ");
+        strcpy(oper, " / ");
     } else {
         fprintf(stderr,"No se detecto una operación valida.\n");
     }
 
     /* Consigue el primer token */
-    char* token = strtok(str, delim);
+    char* token = strtok(str, oper);
     
     /* Identifica los otros token */
     int i = 1;
@@ -42,16 +46,16 @@ void identificarNrosYDelim(){
             break;
         }
         i++;
-        token = strtok(NULL, delim);
+        token = strtok(NULL, oper);
     }
-    printf("Nro1 = %d, Nro2 = %d, Operador =%s\n", nro1,nro2,delim);
+    printf("Nro1 = %d, Nro2 = %d, Operador =%s\n", nro1,nro2,oper);
 }
 
 void leer_pregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
-    const char *patron = "[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]][[:digit:]]{1,10}";
+    const char *patron = "-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]]-?[[:digit:]]{1,10}";
     ret = regcomp(&regex, patron, REG_EXTENDED);
     char msgbuf[LONG_MAX];
     char *p;
