@@ -7,6 +7,8 @@
 
 extern int suma(int a, int b);
 extern int resta(int a, int b);
+extern int multiply(int a, int b);
+extern int divide(int a, int b);
 
 int nro1, nro2;
 char oper_texto[4];
@@ -26,6 +28,16 @@ int calcularOperacion(int operando1, char operador, int operando2){
         printf("El resultado es: %d\n", resultado);
         return resultado;
         }
+    if (operador == '*'){
+        resultado = multiply(operando1, operando2);
+        printf("El resultado es: %d\n", resultado);
+        return resultado;
+        }
+    if (operador == '/'){
+        resultado = divide(operando1, operando2);
+        printf("El resultado es: %d\n", resultado);
+        return resultado;
+         }
         return 0;
     }
 
@@ -79,7 +91,7 @@ void leer_pregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
-    const char *patron = "-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]]-?[[:digit:]]{1,10}";
+    const char *patron = "∧-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]]-?[[:digit:]]{1,10}$";
     ret = regcomp(&regex, patron, REG_EXTENDED);
     char msgbuf[LONG_MAX];
     char *p;
