@@ -96,7 +96,7 @@ void leer_pregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
-    const char *patron = "-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]]-?[[:digit:]]{1,10}";
+    const char *patron = "-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\-\\/][[:space:]]-?[[:digit:]]{1,10}";
     ret = regcomp(&regex, patron, REG_EXTENDED);
     char msgbuf[LONG_MAX];
     char *p;
@@ -131,11 +131,10 @@ int main (void){
 }
 ----
 
-[.text-justify]
 El programa en C tiene tres funciones principales:
 
-La primera, llamada ‘calcularOperacion’ se encarga de llamar al programa de Assembler que corresponda según el operador que se le ingrese como argumento. 
+- La primera, llamada ‘calcularOperacion’ se encarga de llamar al programa de Assembler que corresponda según el operador que se le ingrese como argumento. 
 
-La segunda función se llama ‘identificarNrosYDelim’, lee lo que el usuario ingresó y detecta si se encuentra uno de los cuatro operadores en el input. En caso afirmativo, guarda el operador en una variable.
+- La segunda función se llama ‘identificarNrosYDelim’, lee lo que el usuario ingresó y detecta si se encuentra uno de los cuatro operadores en el input. En caso afirmativo, guarda el operador en una variable.
 
-Finalmente tenemos la tercera función ‘leer_pregunta’, que se encarga de tomar el input del usuario y utiliza una expresión regular para verificar que el input es exactamente “numero”, “espacio”, “operador”, “espacio” y “número”. En caso negativo el programa le dirá al usuario que sus respuestas son limitadas y le sugerirá escribir la operación en el formato correcto.
+- Finalmente tenemos la tercera función ‘leer_pregunta’, que se encarga de tomar el input del usuario y utiliza una expresión regular para verificar que el input es exactamente “numero”, “espacio”, “operador”, “espacio” y “número”. En caso negativo el programa le dirá al usuario que sus respuestas son limitadas y le sugerirá escribir la operación en el formato correcto.

@@ -22,27 +22,23 @@ int calcularOperacion(int operando1, char operador, int operando2){
         resultado = suma(operando1, operando2);
         printf("El resultado es: %d\n", resultado);
         return resultado;
-        }
-    if (operador == '-'){
+    } else if (operador == '-'){
         resultado = resta(operando1, operando2);
         printf("El resultado es: %d\n", resultado);
         return resultado;
-        }
-    if (operador == '*'){
+    } else if (operador == '*'){
         resultado = multiply(operando1, operando2);
         printf("El resultado es: %d\n", resultado);
         return resultado;
-        }
-    if (operador == '/'){
+    } else if (operador == '/'){
         resultado = divide(operando1, operando2);
         printf("El resultado es: %d\n", resultado);
         return resultado;
-         }
+    }
         return 0;
     }
 
 void identificarNrosYDelim(){
-
     if (strstr(str, " + ") != NULL) {
         printf("Suma detectada!\n");
         strcpy(oper_texto, " + ");
@@ -91,7 +87,7 @@ void leer_pregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
-    const char *patron = "∧-?[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]]-?[[:digit:]]{1,10}$";
+    const char *patron = "[[:digit:]]{1,10}[[:space:]][\\+\\*\\/\\-][[:space:]][[:digit:]]{1,10}";
     ret = regcomp(&regex, patron, REG_EXTENDED);
     char msgbuf[LONG_MAX];
     char *p;
@@ -116,7 +112,7 @@ void leer_pregunta(){
     regfree(&regex);
 
     identificarNrosYDelim();
-    //printf("oper: %d", oper);
+    printf("oper: %d", oper);
     calcularOperacion(nro1,oper,nro2);
 }
 
