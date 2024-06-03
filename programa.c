@@ -28,7 +28,7 @@ int calcularOperacion(int operando1, char operador, int operando2){
         return resultado;
     } else if (operador == '/'){
         if (operando2 == 0){
-            fprintf(stderr, "No se puede dividir por cero");
+            fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
         resultado = divide(operando1, operando2);
