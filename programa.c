@@ -13,6 +13,7 @@ extern int divide(int a, int b);
 int nro1, nro2, resultado;
 char oper_texto[4], oper, str[LONG_MAX];
 
+
 int calcularOperacion(int operando1, char operador, int operando2){
     if (operador == '+'){
         resultado = suma(operando1, operando2);
@@ -28,7 +29,7 @@ int calcularOperacion(int operando1, char operador, int operando2){
         return resultado;
     } else if (operador == '/'){
         if (operando2 == 0){
-            fprintf(stderr, "No se puede dividir por cero");
+            fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
         resultado = divide(operando1, operando2);
@@ -115,13 +116,16 @@ void leer_pregunta(){
     }
 
     regfree(&regex);
-
-    identificarNrosYDelim();
-    //printf("oper: %d\n", oper);
-    calcularOperacion(nro1,oper,nro2);
 }
 
-int main (void){
-    leer_pregunta();
+int main (void){ 
+    char input;
+    while(1){
+        leer_pregunta();
+        identificarNrosYDelim();
+        calcularOperacion(nro1,oper,nro2);
+        printf("Presione CTRL + C para salir\n");
+    }
     return 0;
 }
+  
