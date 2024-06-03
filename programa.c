@@ -116,14 +116,13 @@ void leer_pregunta(){
     }
 
     regfree(&regex);
+    identificarNrosYDelim();
+    calcularOperacion(nro1,oper,nro2);
 }
 
 int main (void){ 
-    char input;
     while(1){
         leer_pregunta();
-        identificarNrosYDelim();
-        calcularOperacion(nro1,oper,nro2);
         printf("Presione CTRL + C para salir\n");
     }
     return 0;
