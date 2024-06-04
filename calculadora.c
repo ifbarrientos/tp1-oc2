@@ -1,17 +1,3 @@
-= Trabajo Práctico Integrador
-Ignacio Barrientos <ifbarrientos@outlook.com>; Pedro Venditto <pedrovenditto41@gmail.com>
-:toc:
-:toc-title: Contenidos
-:icons: font
-:source-highlighter: highlight.js
-
-== Introducción
-El objetivo de este trabajo práctico es crear una calculadora que pueda realizar operaciones aritméticas utilizando un programa en C que se encargue de verificar que las entradas son válidas y muestra el resultado y otro programa en Assembler que es el que se encarga de realizar las operaciones aritméticas y luego se la devuelve al programa en C.
-Nuestro programa está dividido en dos partes: un código en C que cumple la función de usar expresiones regulares para asegurarse de que la operación ingresada por el usuario es válida, elegir cual es la operación que se debe hacer y mostrar el resultado en pantalla. Mientras que la otra parte es el código en Assembler que está separado en varios archivos, uno para cada tipo de operación.
-
-.calculadora.c
-[source, C]
-----
 #include <stdio.h>
 #include <regex.h>
 #include <string.h>
@@ -141,14 +127,4 @@ int main (void){
     }
     return 0;
 }
-----
-
-'calculadora.c' actua como el programa principal de la calculadora y tiene tres funciones principales:
-
-- La primera, llamada ‘calcularOperacion’ se encarga de llamar al programa de Assembler que corresponda según el operador que se le ingrese como argumento. 
-
-- La segunda función se llama ‘identificarNrosYDelim’, lee lo que el usuario ingresó y detecta si se encuentra uno de los cuatro operadores en el input. En caso afirmativo, guarda el operador en una variable.
-
-- Finalmente tenemos la tercera función ‘leer_pregunta’, que se encarga de tomar el input del usuario y utiliza una expresión regular para verificar que el input es exactamente “numero”, “espacio”, “operador”, “espacio” y “número”. Si el input es correcto entonces llamará a la función 'identificarNrosYDelim' y luego 'calcularOperacion'. En caso negativo el programa le dirá al usuario que las respuestas de la calculadora son limitadas y le mostrará un ejemplo de una operación con el formato correcto.
-
-El metodo main del programa tiene un ciclo donde se repite el metodo 'leer_pregunta()' que es el que ejecuta toda la lógica del programa. Luego de conseguir un resultado se imprime un mensaje indicandole al usuario como terminar el programa si no quiere continuar. La calculadora pedirá un calculo y mostrará el resultado del mismo indefinidamente hasta que el usuario decida salir del programa.
+  
