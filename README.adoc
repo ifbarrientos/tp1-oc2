@@ -7,7 +7,10 @@ Ignacio Barrientos <ifbarrientos@outlook.com>; Pedro Venditto <pedrovenditto41@g
 
 == Introducción
 El objetivo de este trabajo práctico es crear una calculadora que pueda realizar operaciones aritméticas utilizando un programa en C que se encargue de verificar que las entradas son válidas y además muestra el resultado de la operación, por otro lado, un segundo programa en Assembler que es el que se encarga de realizar las operaciones aritméticas y luego se la devuelve al programa en C.
+
 Nuestro programa está dividido en dos partes: un código en C que cumple la función de usar expresiones regulares para asegurarse de que la operación ingresada por el usuario es válida, elegir cual es la operación que se debe hacer y mostrar el resultado en pantalla. Mientras que la otra parte es el código en Assembler que está separado en varios archivos, uno para cada tipo de operación.
+
+== Código C
 
 .calculadora.c
 [source, C]
