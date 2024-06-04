@@ -6,7 +6,7 @@ Ignacio Barrientos <ifbarrientos@outlook.com>; Pedro Venditto <pedrovenditto41@g
 :source-highlighter: highlight.js
 
 == Introducción
-El objetivo de este trabajo práctico es crear una calculadora que pueda realizar operaciones aritméticas utilizando un programa en C que se encargue de verificar que las entradas son válidas y muestra el resultado y otro programa en Assembler que es el que se encarga de realizar las operaciones aritméticas y luego se la devuelve al programa en C.
+El objetivo de este trabajo práctico es crear una calculadora que pueda realizar operaciones aritméticas utilizando un programa en C que se encargue de verificar que las entradas son válidas y además muestra el resultado de la operación, por otro lado, un segundo programa en Assembler que es el que se encarga de realizar las operaciones aritméticas y luego se la devuelve al programa en C.
 Nuestro programa está dividido en dos partes: un código en C que cumple la función de usar expresiones regulares para asegurarse de que la operación ingresada por el usuario es válida, elegir cual es la operación que se debe hacer y mostrar el resultado en pantalla. Mientras que la otra parte es el código en Assembler que está separado en varios archivos, uno para cada tipo de operación.
 
 .calculadora.c
@@ -152,3 +152,88 @@ int main (void){
 - Finalmente tenemos la tercera función ‘leer_pregunta’, que se encarga de tomar el input del usuario y utiliza una expresión regular para verificar que el input es exactamente “numero”, “espacio”, “operador”, “espacio” y “número”. Si el input es correcto entonces llamará a la función 'identificarNrosYDelim' y luego 'calcularOperacion'. En caso negativo el programa le dirá al usuario que las respuestas de la calculadora son limitadas y le mostrará un ejemplo de una operación con el formato correcto.
 
 El metodo main del programa tiene un ciclo donde se repite el metodo 'leer_pregunta()' que es el que ejecuta toda la lógica del programa. Luego de conseguir un resultado se imprime un mensaje indicandole al usuario como terminar el programa si no quiere continuar. La calculadora pedirá un calculo y mostrará el resultado del mismo indefinidamente hasta que el usuario decida salir del programa.
+
+== Código Assembler
+
+En el código, las funciones suma, resta, multiply y divide hacen referencia a sum, res, mul y div, respectivamente, es decir, son las mismas funcionalidades que se solicitan en el enunciado.
+
+.suma.s
+[source, asm]
+
+----
+
+section .text
+global suma
+
+suma:
+    mov eax, [esp+4]
+    mov ebx, [esp+8]
+
+    add eax, ebx
+    
+    ret
+
+----
+
+Este archivo contiene la operación aritmética que resuelve la suma entre dos números enteros. Aquí, se almacenan los inputs dados por el usuario en los registros eax y ebx; luego, Se realiza la suma entre ambos valores, se almacena el resultado en el registro eax y se lo devuelve al código de C.
+
+.resta.s
+[source, asm]
+
+----
+
+section .text
+global resta
+
+resta:
+    mov eax, [esp+4]
+    mov ebx, [esp+8]
+
+    sub eax, ebx
+
+    ret
+
+----
+
+Este archivo contiene la función que resuelve la resta entre dos números enteros. Al igual que en la suma, los valores dados por el usuario se almacenan en los registros eax y ebx, para luego resolver la resta entre ellos y guardarlo en eax. Finalmente, se devuelve el valor obtenido al código de C.
+
+.multiply.s
+[source, asm]
+
+----
+
+section .text
+global multiply
+
+multiply:
+    mov eax, [esp+4]
+    mov ebx, [esp+8]
+
+    imul ebx
+
+    ret
+
+----
+
+Este archivo contiene la función que resuelve la multiplicación entre dos números enteros. Al igual que en los casos anteriores, los inputs del usuario se almacenan en eax y ebx pero, en este caso, se utiliza la operación "imul", la cual realiza la multiplicación con signo entre dos o más números enteros. El resultado de dicha operación se almacena en ebx y se devuelve al código de C.
+
+.divide.s
+[source, asm]
+
+----
+
+section .text
+global divide
+
+divide:
+    mov eax, [esp+4]
+    mov ebx, [esp+8]
+
+    cdq
+    idiv ebx
+
+    ret
+
+----
+
+Este archivo contiene la función que resuelve la división entre dos números enteros. Los inputs del usuario se almacenan en los registros eax y ebx, pero, en este caso, el comando cdq extiende el valor contenido en eax hacia edx. Es decir, convierte el valor de 32 bits contenido en eax a un valor de 64 bits en eax:edx. Lo que permite realizar la división con signo entre dos números enteros. Luego, operación idiv realiza dicho cálculo. Luego, el cociente se almacena en el registro eax y el resto en edx. Finalmente se envía el cociente al código de C.
