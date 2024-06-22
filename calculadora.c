@@ -4,6 +4,8 @@
 #include <stdlib.h>
 
 #define LONG_MAX 256
+const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
+const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 
 extern int suma(int a, int b);
 extern int resta(int a, int b);
@@ -11,35 +13,31 @@ extern int multiply(int a, int b);
 extern int divide(int a, int b);
 
 int nro1, nro2, resultado;
+bool continua = false;
 char oper_texto[4], oper, str[LONG_MAX];
 
 
-int calcularOperacion(int operando1, char operador, int operando2){
+int CalcularOperacion(int operando1, char operador, int operando2){
     if (operador == '+'){
         resultado = suma(operando1, operando2);
-        printf("El resultado es: %d\n", resultado);
-        return resultado;
     } else if (operador == '-'){
         resultado = resta(operando1, operando2);
-        printf("El resultado es: %d\n", resultado);
-        return resultado;
     } else if (operador == '*'){
         resultado = multiply(operando1, operando2);
-        printf("El resultado es: %d\n", resultado);
-        return resultado;
     } else if (operador == '/'){
         if (operando2 == 0){
             fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
         resultado = divide(operando1, operando2);
-        printf("El resultado es: %d\n", resultado);
+    }
+        printf("Presione CTRL + C para salir\n");
+        printf("El resultado es:\n%d ", resultado);
+        continua = true;
         return resultado;
     }
-        return 0;
-    }
 
-void identificarNrosYDelim(){
+void IdentificarNrosYDelim(){
     if (strstr(str, " + ") != NULL) {
         printf("Suma detectada!\n");
         strcpy(oper_texto, " + ");
@@ -80,13 +78,14 @@ void identificarNrosYDelim(){
     printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
 
-void leer_pregunta(){
+void LeerPregunta(){
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
-    const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
     regex_t regex;
     int ret;
 
-    ret = regcomp(&regex, patron, REG_EXTENDED);
+    if (continua)
+        ret = regcomp(&regex, patron_continuo, REG_EXTENDED);
+    else ret = regcomp(&regex, patron, REG_EXTENDED);    
 
     if (fgets(str, LONG_MAX, stdin) != NULL) { //Hace el input
         size_t len = strlen(str);
@@ -116,14 +115,13 @@ void leer_pregunta(){
     }
 
     regfree(&regex);
-    identificarNrosYDelim();
-    calcularOperacion(nro1,oper,nro2);
+    IdentificarNrosYDelim();
+    CalcularOperacion(nro1,oper,nro2);
 }
 
 int main (void){ 
     while(1){
-        leer_pregunta();
-        printf("Presione CTRL + C para salir\n");
+        LeerPregunta();
     }
     return 0;
 }
