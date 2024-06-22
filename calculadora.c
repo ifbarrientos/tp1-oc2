@@ -2,6 +2,7 @@
 #include <regex.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define LONG_MAX 256
 const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
@@ -12,7 +13,7 @@ extern int resta(int a, int b);
 extern int multiply(int a, int b);
 extern int divide(int a, int b);
 
-int nro1, nro2, resultado;
+int nro1, nro2, resultado = 0;
 bool continua = false;
 char oper_texto[4], oper, str[LONG_MAX];
 
@@ -59,6 +60,13 @@ void IdentificarNrosYDelim(){
     }
 
     /* Consigue el primer token */
+    if (continua) {
+        char nuevo_str[10];
+        sprintf(nuevo_str, "%d",resultado);
+        char* token = strtok(strcat(resultado, str), oper_texto);
+    }
+    else char* token = strtok(str, oper_texto);
+
     char* token = strtok(str, oper_texto);
     
     /* Identifica los otros token */
