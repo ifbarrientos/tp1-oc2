@@ -1,11 +1,10 @@
 section .text
-global divide
+global suma
 
-divide:
+sum:
     mov eax, [esp+4]
     mov ebx, [esp+8]
 
-    cdq
-    idiv ebx
-
+    add eax, ebx
+    
     ret

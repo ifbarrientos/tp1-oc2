@@ -1,7 +1,7 @@
 section .text
 global resta
 
-resta:
+res:
     mov eax, [esp+4]
     mov ebx, [esp+8]
 
