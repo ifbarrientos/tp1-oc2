@@ -2,37 +2,39 @@
 #include <regex.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #define LONG_MAX 256
 const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 
-extern int suma(int a, int b);
-extern int resta(int a, int b);
-extern int multiply(int a, int b);
-extern int divide(int a, int b);
+extern uint64_t sum(uint64_t a, uint64_t b);
+extern uint64_t res(uint64_t a, uint64_t b);
+extern uint64_t mul(uint64_t a, uint64_t b);
+extern uint64_t div(uint64_t a, uint64_t b);
+extern uint64_t sum64(uint64_t a, uint64_t b);
 
-int nro1, nro2, resultado;
+uint64_t nro1, nro2, resultado;
 bool continua = false;
 char oper_texto[4], oper, str[LONG_MAX];
 
 
-int CalcularOperacion(int operando1, char operador, int operando2){
+uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2){
     if (operador == '+'){
-        resultado = suma(operando1, operando2);
+        resultado = sum(operando1, operando2);
     } else if (operador == '-'){
-        resultado = resta(operando1, operando2);
+        resultado = res(operando1, operando2);
     } else if (operador == '*'){
-        resultado = multiply(operando1, operando2);
+        resultado = mul(operando1, operando2);
     } else if (operador == '/'){
         if (operando2 == 0){
             fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
-        resultado = divide(operando1, operando2);
+        resultado = div(operando1, operando2);
     }
         printf("Presione CTRL + C para salir\n");
-        printf("El resultado es:\n%d ", resultado);
+        printf("El resultado es:\n%llu ", resultado);
         continua = true;
         return resultado;
     }

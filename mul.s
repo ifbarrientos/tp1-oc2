@@ -1,10 +1,10 @@
 section .text
-global suma
+global multiply
 
-suma:
+mul:
     mov eax, [esp+4]
     mov ebx, [esp+8]
 
-    add eax, ebx
-    
+    imul ebx
+
     ret
