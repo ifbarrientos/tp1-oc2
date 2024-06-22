@@ -17,7 +17,7 @@ extern uint64_t sum64(uint64_t a, uint64_t b);
 
 uint64_t nro1, nro2, resultado;
 bool continua = false;
-char oper_texto[4], oper, str[LONG_MAX];
+char oper_texto[4], oper_texto_continua[4], oper, str[LONG_MAX];
 
 
 uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2){
@@ -41,21 +41,25 @@ uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2
     }
 
 void IdentificarNrosYDelim(){
-    if (strstr(str, " + ") != NULL) {
+    if (strstr(str, "+") != NULL) {
         printf("Suma detectada!\n");
-        strcpy(oper_texto, " + ");
+        if (continua) strcpy(oper_texto, "+ ");
+        else strcpy(oper_texto_continua, " + ");
         oper = '+';
-    } else if (strstr(str, " - ") != NULL){
+    } else if (strstr(str, "-") != NULL){
         printf("Resta detectada!\n");
-        strcpy(oper_texto, " - ");
+        if (continua) strcpy(oper_texto, "- ");
+        else strcpy(oper_texto_continua, " - ");
         oper = '-';
-    } else if (strstr(str, " * ") != NULL) {
+    } else if (strstr(str, "*") != NULL) {
         printf("Multiplicación detectada!\n");
-        strcpy(oper_texto, " * ");
+        if (continua) strcpy(oper_texto, "* ");
+        else strcpy(oper_texto_continua, " * ");
         oper = '*';
-    } else if (strstr(str, " / ") != NULL) {
+    } else if (strstr(str, "/") != NULL) {
         printf("División detectada!\n");
-        strcpy(oper_texto, " / ");
+        if (continua) strcpy(oper_texto, "/ ");
+        else strcpy(oper_texto_continua, " / ");
         oper = '/';
     } else {
         fprintf(stderr,"No se detecto una operación valida.\n");
@@ -63,26 +67,27 @@ void IdentificarNrosYDelim(){
 
     /* Consigue el primer token */
     char* token;
-    if (continua) {
-        char nuevo_str[10];
-        sprintf(nuevo_str, "%llu",resultado);
-        //token = strtok(strcat(resultado, str), oper_texto);
+    if (continua){
+        token = strtok(str, oper_texto_continua)
+    } else {
+        token = strtok(str, oper_texto);
     }
-    else token = strtok(str, oper_texto);
     
     /* Identifica los otros token */
     int i = 1;
     while( token != NULL ) {
         switch (i){
             case 1:
-            nro1 = atoi(token);
+            if (continua) nro1 = resultado;
+            else nro1 = atoi(token);
             break;
             case 2:
             nro2 = atoi(token);
             break;
         }
         i++;
-        token = strtok(NULL, oper_texto);
+        if (continua) token = strtok(NULL, oper_texto_continua);
+        else strtok(NULL, oper_texto);
     }
     printf("Nro1 = %llu, Nro2 = %llu, Operador = %c\n", nro1,nro2,oper);
 }
