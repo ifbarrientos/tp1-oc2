@@ -33,7 +33,7 @@ bool ChequearRegex(const char *input){
     if (!ret){
         puts("Ok!");
     } else if (ret == REG_NOMATCH) {
-        puts("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
+        //Falló el regex
         return false;
     } else {
         char msgbuf[LONG_MAX];
@@ -131,7 +131,7 @@ void LeerPregunta(){
         continua = true;
         printf("Operación continua detectada\n");
     } else {
-        printf("No se detectó ninguna operación\n");
+        printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
     }
     IdentificarNrosYDelim();
     CalcularOperacion(nro1,oper,nro2);
@@ -157,32 +157,3 @@ int main (void){
     }
     return 0;
 }
-  
-/*
-    regex_t regex;
-    int ret;
-
-    if (continua)
-        ret = regcomp(&regex, patron_continuo, REG_EXTENDED);
-    else ret = regcomp(&regex, patron, REG_EXTENDED);    
-
-    if (ret){
-        fprintf(stderr, "No se pudo compilar el regex\n");
-        return;
-    }
-
-    ret = regexec(&regex, str, 0, NULL, 0);
-    if (!ret){
-        puts("Ok!");
-    } else if (ret == REG_NOMATCH) {
-        puts("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
-        return;
-    } else {
-        char msgbuf[LONG_MAX];
-        regerror(ret, &regex, msgbuf, sizeof(msgbuf));
-        fprintf(stderr, "Fallo el matcheo de regex: %s\n", msgbuf);
-        return;
-    }
-
-    regfree(&regex);
-*/
