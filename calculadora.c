@@ -9,43 +9,57 @@
 const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 
-//extern uint64_t sum(uint64_t a, uint64_t b);
-//extern uint64_t res(uint64_t a, uint64_t b);
-//extern uint64_t mul(uint64_t a, uint64_t b);
-//extern uint64_t div(uint64_t a, uint64_t b);
-//extern uint64_t sum64(uint64_t a, uint64_t b);
-extern int sum(int a, int b);
-extern int res(int a, int b);
-extern int mul(int a, int b);
-extern int divi(int a, int b);
+extern int sum_mmx(int a, int b);
+//extern int res(int a, int b);
+//extern int mul(int a, int b);
+//extern int divi(int a, int b);
 
-//uint64_t nro1, nro2, resultado;
 int nro1, nro2, resultado;
-bool continua = false;
+bool continua;
 char oper_texto[4], oper_texto_continua[3], oper, str[LONG_MAX];
 
+bool ChequearRegex(const char *input){
+    regex_t regex;
+    int ret;
 
-//uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2){
+    ret = regcomp(&regex, input, REG_EXTENDED);
+
+    if (ret){
+        fprintf(stderr, "No se pudo compilar el regex\n");
+        return false;
+    }
+
+    ret = regexec(&regex, str, 0, NULL, 0);
+    if (!ret){
+        puts("Ok!");
+    } else if (ret == REG_NOMATCH) {
+        puts("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
+        return false;
+    } else {
+        char msgbuf[LONG_MAX];
+        regerror(ret, &regex, msgbuf, sizeof(msgbuf));
+        fprintf(stderr, "Fallo el matcheo de regex: %s\n", msgbuf);
+        return false;
+    }
+    regfree(&regex);
+    return true;
+}
+
 int CalcularOperacion(int operando1, char operador, int operando2){
     if (operador == '+'){
-        //resultado = sum64(operando1, operando2);
-        resultado = sum(operando1, operando2);
+        resultado = sum_mmx(operando1, operando2);
     } else if (operador == '-'){
         //resultado = res(operando1, operando2);
-        resultado = res(operando1, operando2);
     } else if (operador == '*'){
         //resultado = mul(operando1, operando2);
-        resultado = mul(operando1, operando2);
     } else if (operador == '/'){
         if (operando2 == 0){
             fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
-        //resultado = div(operando1, operando2);
-        resultado = divi(operando1, operando2);
+        //resultado = divi(operando1, operando2);
     }
         printf("Presione CTRL + C para salir\n");
-        //printf("El resultado es:%llu\n", resultado);
         printf("El resultado es:%d\n", resultado);
         continua = true;
         return resultado;
@@ -106,26 +120,51 @@ void IdentificarNrosYDelim(){
             token = strtok(NULL, oper_texto);
         }
     }
-    //printf("Nro1 = %llu, Nro2 = %llu, Operador = %c\n", nro1,nro2,oper);
     printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
 
 void LeerPregunta(){
+    if (ChequearRegex(patron)){
+        continua = false;
+        printf("Operación nueva detectada\n");
+    } else if (ChequearRegex(patron_continuo)){
+        continua = true;
+        printf("Operación continua detectada\n");
+    } else {
+        printf("No se detectó ninguna operación\n");
+    }
+    IdentificarNrosYDelim();
+    CalcularOperacion(nro1,oper,nro2);
+}
+
+void LeerInput(){
+    if (fgets(str, LONG_MAX, stdin) != NULL) { //Hace el input
+    size_t len = strlen(str);
+    if (len > 0 && str[len-1] == '\n')  //Le saca el \n al final
+        str[len-1] = '\0';
+    } else {
+        fprintf(stderr, "Hubo un error al leer el input\n");
+        return;
+    }
+}
+
+int main (void){ 
+    continua = false;
+    printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
+    while(1){
+        LeerInput();
+        LeerPregunta();
+    }
+    return 0;
+}
+  
+/*
     regex_t regex;
     int ret;
 
     if (continua)
         ret = regcomp(&regex, patron_continuo, REG_EXTENDED);
     else ret = regcomp(&regex, patron, REG_EXTENDED);    
-
-    if (fgets(str, LONG_MAX, stdin) != NULL) { //Hace el input
-        size_t len = strlen(str);
-        if (len > 0 && str[len-1] == '\n')
-            str[len-1] = '\0';
-    } else {
-        fprintf(stderr, "Hubo un error al leer el input\n");
-        return;
-    }
 
     if (ret){
         fprintf(stderr, "No se pudo compilar el regex\n");
@@ -146,15 +185,4 @@ void LeerPregunta(){
     }
 
     regfree(&regex);
-    IdentificarNrosYDelim();
-    CalcularOperacion(nro1,oper,nro2);
-}
-
-int main (void){ 
-    printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
-    while(1){
-        LeerPregunta();
-    }
-    return 0;
-}
-  
+*/
