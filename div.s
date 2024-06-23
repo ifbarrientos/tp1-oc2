@@ -1,7 +1,7 @@
 section .text
-global divide
+global divi
 
-div:
+divi:
     mov eax, [esp+4]
     mov ebx, [esp+8]
 
