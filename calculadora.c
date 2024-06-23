@@ -73,7 +73,7 @@ void IdentificarNrosYDelim(){
     /* Consigue el primer token */
     char* token;
     if (continua){
-        token = strtok(str, oper_texto_continua)
+        token = strtok(str, oper_texto_continua);
     } else {
         token = strtok(str, oper_texto);
     }
