@@ -9,14 +9,14 @@
 const char *patron = "^-?[[:digit:]]{1,10}[[:space:]][+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 
-extern int sum_mmx(int a, int b);
-//extern int res(int a, int b);
-//extern int mul(int a, int b);
+extern int sum(int a, int b);
+extern int res(int a, int b);
+extern int mul(int a, int b);
 //extern int divi(int a, int b);
 
 int nro1, nro2, resultado;
 bool continua;
-char oper_texto[4], oper_texto_continua[3], oper, str[LONG_MAX];
+char oper, str[LONG_MAX];
 
 bool ChequearRegex(const char *input){
     regex_t regex;
@@ -47,11 +47,11 @@ bool ChequearRegex(const char *input){
 
 int CalcularOperacion(int operando1, char operador, int operando2){
     if (operador == '+'){
-        resultado = sum_mmx(operando1, operando2);
+        resultado = sum(operando1, operando2);
     } else if (operador == '-'){
-        //resultado = res(operando1, operando2);
+        resultado = res(operando1, operando2);
     } else if (operador == '*'){
-        //resultado = mul(operando1, operando2);
+        resultado = mul(operando1, operando2);
     } else if (operador == '/'){
         if (operando2 == 0){
             fprintf(stderr, "No se puede dividir por cero\n");
@@ -65,60 +65,12 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         return resultado;
     }
 
-void IdentificarNrosYDelim(){
-    if (strstr(str, "+") != NULL) {
-        //printf("Suma detectada!\n");
-        strcpy(oper_texto, " + ");
-        strcpy(oper_texto_continua, "+ ");
-        oper = '+';
-    } else if (strstr(str, "-") != NULL){
-        //printf("Resta detectada!\n");
-        strcpy(oper_texto, " - ");
-        strcpy(oper_texto_continua, "- ");
-        oper = '-';
-    } else if (strstr(str, "*") != NULL) {
-        //printf("Multiplicación detectada!\n");
-        strcpy(oper_texto, " * ");
-        strcpy(oper_texto_continua, "* ");
-        oper = '*';
-    } else if (strstr(str, "/") != NULL) {
-        //printf("División detectada!\n");
-        strcpy(oper_texto, " / ");
-        strcpy(oper_texto_continua, "/ ");
-        oper = '/';
-    } else {
-        fprintf(stderr,"No se detecto una operación valida.\n");
-    }
-
-    /* Consigue el primer token */
-    char* token;
-    if (continua){
-        token = strtok(str, oper_texto_continua);
-    } else {
-        token = strtok(str, oper_texto);
-    }
-    
-    /* Identifica los otros token */
-    int i = 1;
+void IdentificarNrosYOper(){
     if (continua) {
-        while (token!=NULL){
-            nro1 = resultado;
-            nro2 = atoi(token);
-            token = strtok(NULL, oper_texto_continua);
-        }
+        nro1 = resultado;
+        int cant_items = sscanf(str, "%c %d", &oper, &nro2);
     } else {
-        while( token != NULL ) {
-            switch (i){
-                case 1:
-                nro1 = atoi(token);
-                break;
-                case 2:
-                nro2 = atoi(token);
-                break;
-            }
-            i++;
-            token = strtok(NULL, oper_texto);
-        }
+        int cant_items = sscanf(str, "%d %c %d", &nro1, &oper, &nro2);
     }
     printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
@@ -145,7 +97,7 @@ void LeerPregunta(){
     } else {
         printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
     }
-    IdentificarNrosYDelim();
+    IdentificarNrosYOper();
     CalcularOperacion(nro1,oper,nro2);
 }
 
