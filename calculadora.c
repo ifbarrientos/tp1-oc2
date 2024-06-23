@@ -99,7 +99,6 @@ void IdentificarNrosYDelim(){
 }
 
 void LeerPregunta(){
-    printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     regex_t regex;
     int ret;
 
@@ -140,6 +139,7 @@ void LeerPregunta(){
 }
 
 int main (void){ 
+    printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     while(1){
         LeerPregunta();
     }
