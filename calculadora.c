@@ -80,19 +80,31 @@ void IdentificarNrosYDelim(){
     
     /* Identifica los otros token */
     int i = 1;
-    while( token != NULL ) {
-        switch (i){
-            case 1:
-            if (continua) nro1 = resultado;
-            else nro1 = atoi(token);
-            break;
-            case 2:
-            nro2 = atoi(token);
-            break;
+    if (continua) {
+        while (token!=NULL){
+            switch(i){
+                case 1:
+                nro1 = resultado;
+                break;
+                case 2:
+                nro2= atoi(token);
+            }
+            i++;
+            token = strtok(NULL, oper_texto_continua);
         }
-        i++;
-        if (continua) token = strtok(NULL, oper_texto_continua);
-        else token = strtok(NULL, oper_texto);
+    } else {
+        while( token != NULL ) {
+            switch (i){
+                case 1:
+                nro1 = atoi(token);
+                break;
+                case 2:
+                nro2 = atoi(token);
+                break;
+            }
+            i++;
+            token = strtok(NULL, oper_texto);
+        }
     }
     //printf("Nro1 = %llu, Nro2 = %llu, Operador = %c\n", nro1,nro2,oper);
     printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
