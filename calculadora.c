@@ -31,7 +31,7 @@ bool ChequearRegex(const char *input){
 
     ret = regexec(&regex, str, 0, NULL, 0);
     if (!ret){
-        puts("Ok!");
+        //puts("Ok!");
     } else if (ret == REG_NOMATCH) {
         //Falló el regex
         return false;
@@ -59,8 +59,8 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         }
         //resultado = divi(operando1, operando2);
     }
-        printf("Presione CTRL + C para salir\n");
-        printf("El resultado es:%d\n", resultado);
+        printf("\nPresione CTRL + C para salir. \nTambién puede realizar otra operación con el resultado (como '+ 1').\nO realizar una nueva operación (como '6 / 2').\n");
+        printf("\nEl resultado es: %d\n", resultado);
         continua = true;
         return resultado;
     }
@@ -72,7 +72,7 @@ void IdentificarNrosYOper(){
     } else {
         int cant_items = sscanf(str, "%d %c %d", &nro1, &oper, &nro2);
     }
-    printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
+    //printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
 
 void LeerInput(){
@@ -90,10 +90,10 @@ void LeerPregunta(){
     LeerInput();
     if (ChequearRegex(patron)){
         continua = false;
-        printf("Operación nueva detectada\n");
+        //printf("Operación nueva detectada\n");
     } else if (ChequearRegex(patron_continuo)){
         continua = true;
-        printf("Operación continua detectada\n");
+        //printf("Operación continua detectada\n");
     } else {
         printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
     }
