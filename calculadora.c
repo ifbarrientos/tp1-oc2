@@ -13,16 +13,20 @@ const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 //extern uint64_t res(uint64_t a, uint64_t b);
 //extern uint64_t mul(uint64_t a, uint64_t b);
 //extern uint64_t div(uint64_t a, uint64_t b);
-extern uint64_t sum64(uint64_t a, uint64_t b);
+//extern uint64_t sum64(uint64_t a, uint64_t b);
+extern int sum(int a, int b);
 
-uint64_t nro1, nro2, resultado;
+//uint64_t nro1, nro2, resultado;
+int nro1, nro2, resultado;
 bool continua = false;
-char oper_texto[4], oper_texto_continua[4], oper, str[LONG_MAX];
+char oper_texto[4], oper_texto_continua[3], oper, str[LONG_MAX];
 
 
-uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2){
+//uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2){
+int CalcularOperacion(int operando1, char operador, int operando2){
     if (operador == '+'){
-        resultado = sum64(operando1, operando2);
+        //resultado = sum64(operando1, operando2);
+        resultado = sum(operando1, operando2);
     } else if (operador == '-'){
         //resultado = res(operando1, operando2);
     } else if (operador == '*'){
@@ -35,7 +39,8 @@ uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2
         //resultado = div(operando1, operando2);
     }
         printf("Presione CTRL + C para salir\n");
-        printf("El resultado es:%llu\n", resultado);
+        //printf("El resultado es:%llu\n", resultado);
+        printf("El resultado es:%d\n", resultado);
         continua = true;
         return resultado;
     }
@@ -43,23 +48,23 @@ uint64_t CalcularOperacion(uint64_t operando1, char operador, uint64_t operando2
 void IdentificarNrosYDelim(){
     if (strstr(str, "+") != NULL) {
         printf("Suma detectada!\n");
-        if (continua) strcpy(oper_texto, "+ ");
-        else strcpy(oper_texto_continua, " + ");
+        strcpy(oper_texto, " + ");
+        strcpy(oper_texto_continua, "+ ");
         oper = '+';
     } else if (strstr(str, "-") != NULL){
         printf("Resta detectada!\n");
-        if (continua) strcpy(oper_texto, "- ");
-        else strcpy(oper_texto_continua, " - ");
+        strcpy(oper_texto, " - ");
+        strcpy(oper_texto_continua, "- ");
         oper = '-';
     } else if (strstr(str, "*") != NULL) {
         printf("Multiplicación detectada!\n");
-        if (continua) strcpy(oper_texto, "* ");
-        else strcpy(oper_texto_continua, " * ");
+        strcpy(oper_texto, " * ");
+        strcpy(oper_texto_continua, "* ");
         oper = '*';
     } else if (strstr(str, "/") != NULL) {
         printf("División detectada!\n");
-        if (continua) strcpy(oper_texto, "/ ");
-        else strcpy(oper_texto_continua, " / ");
+        strcpy(oper_texto, " / ");
+        strcpy(oper_texto_continua, "/ ");
         oper = '/';
     } else {
         fprintf(stderr,"No se detecto una operación valida.\n");
@@ -87,9 +92,10 @@ void IdentificarNrosYDelim(){
         }
         i++;
         if (continua) token = strtok(NULL, oper_texto_continua);
-        else strtok(NULL, oper_texto);
+        else token = strtok(NULL, oper_texto);
     }
-    printf("Nro1 = %llu, Nro2 = %llu, Operador = %c\n", nro1,nro2,oper);
+    //printf("Nro1 = %llu, Nro2 = %llu, Operador = %c\n", nro1,nro2,oper);
+    printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
 
 void LeerPregunta(){
