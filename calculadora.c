@@ -67,22 +67,22 @@ int CalcularOperacion(int operando1, char operador, int operando2){
 
 void IdentificarNrosYDelim(){
     if (strstr(str, "+") != NULL) {
-        printf("Suma detectada!\n");
+        //printf("Suma detectada!\n");
         strcpy(oper_texto, " + ");
         strcpy(oper_texto_continua, "+ ");
         oper = '+';
     } else if (strstr(str, "-") != NULL){
-        printf("Resta detectada!\n");
+        //printf("Resta detectada!\n");
         strcpy(oper_texto, " - ");
         strcpy(oper_texto_continua, "- ");
         oper = '-';
     } else if (strstr(str, "*") != NULL) {
-        printf("Multiplicación detectada!\n");
+        //printf("Multiplicación detectada!\n");
         strcpy(oper_texto, " * ");
         strcpy(oper_texto_continua, "* ");
         oper = '*';
     } else if (strstr(str, "/") != NULL) {
-        printf("División detectada!\n");
+        //printf("División detectada!\n");
         strcpy(oper_texto, " / ");
         strcpy(oper_texto_continua, "/ ");
         oper = '/';
