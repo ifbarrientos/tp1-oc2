@@ -15,6 +15,9 @@ const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 //extern uint64_t div(uint64_t a, uint64_t b);
 //extern uint64_t sum64(uint64_t a, uint64_t b);
 extern int sum(int a, int b);
+extern int res(int a, int b);
+extern int mul(int a, int b);
+extern int divi(int a, int b);
 
 //uint64_t nro1, nro2, resultado;
 int nro1, nro2, resultado;
@@ -29,14 +32,17 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         resultado = sum(operando1, operando2);
     } else if (operador == '-'){
         //resultado = res(operando1, operando2);
+        resultado = res(operando1, operando2);
     } else if (operador == '*'){
         //resultado = mul(operando1, operando2);
+        resultado = mul(operando1, operando2);
     } else if (operador == '/'){
         if (operando2 == 0){
             fprintf(stderr, "No se puede dividir por cero\n");
             return 0;
         }
         //resultado = div(operando1, operando2);
+        resultado = divi(operando1, operando2);
     }
         printf("Presione CTRL + C para salir\n");
         //printf("El resultado es:%llu\n", resultado);
@@ -82,14 +88,8 @@ void IdentificarNrosYDelim(){
     int i = 1;
     if (continua) {
         while (token!=NULL){
-            switch(i){
-                case 1:
-                nro1 = resultado;
-                break;
-                case 2:
-                nro2= atoi(token);
-            }
-            i++;
+            nro1 = resultado;
+            nro2 = atoi(token);
             token = strtok(NULL, oper_texto_continua);
         }
     } else {
