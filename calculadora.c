@@ -123,7 +123,19 @@ void IdentificarNrosYDelim(){
     printf("Nro1 = %d, Nro2 = %d, Operador = %c\n", nro1,nro2,oper);
 }
 
+void LeerInput(){
+    if (fgets(str, LONG_MAX, stdin) != NULL) { //Hace el input
+    size_t len = strlen(str);
+    if (len > 0 && str[len-1] == '\n')  //Le saca el \n al final
+        str[len-1] = '\0';
+    } else {
+        fprintf(stderr, "Hubo un error al leer el input\n");
+        return;
+    }
+}
+
 void LeerPregunta(){
+    LeerInput();
     if (ChequearRegex(patron)){
         continua = false;
         printf("Operación nueva detectada\n");
@@ -137,22 +149,10 @@ void LeerPregunta(){
     CalcularOperacion(nro1,oper,nro2);
 }
 
-void LeerInput(){
-    if (fgets(str, LONG_MAX, stdin) != NULL) { //Hace el input
-    size_t len = strlen(str);
-    if (len > 0 && str[len-1] == '\n')  //Le saca el \n al final
-        str[len-1] = '\0';
-    } else {
-        fprintf(stderr, "Hubo un error al leer el input\n");
-        return;
-    }
-}
-
 int main (void){ 
     continua = false;
     printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
     while(1){
-        LeerInput();
         LeerPregunta();
     }
     return 0;
