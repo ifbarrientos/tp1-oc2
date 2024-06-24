@@ -62,7 +62,7 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         printf("\nPresione CTRL + C para salir. \nTambién puede realizar otra operación con el resultado (como '+ 1').\nO realizar una nueva operación (como '6 / 2').\n");
         printf("\nEl resultado es: %d\n", resultado);
         continua = true;
-        str = NULL;
+        str[0] = '\0';
         return resultado;
     }
 
@@ -92,14 +92,14 @@ void LeerPregunta(){
     if (ChequearRegex(patron)){
         continua = false;
         //printf("Operación nueva detectada\n");
-    } else if (ChequearRegex(patron_continuo) && continua=true){
+    } else if (ChequearRegex(patron_continuo) && continua==true){
         continua = true;
         //printf("Operación continua detectada\n");
-    } else if (ChequearRegex(patron_continuo) && continua = false) {
+    } else if (ChequearRegex(patron_continuo) && continua==false) {
         printf("\nAntes de realizar una operación continua haga una operación nueva, como '2 * 2'\n");
         return;
     } else {
-        printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2', con un espacio entre el signo y los numeros.");
+        printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2', con un espacio entre el signo y los numeros.\n");
         return;
     }
     IdentificarNrosYOper();
