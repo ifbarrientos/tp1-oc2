@@ -54,7 +54,7 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         resultado = mul(operando1, operando2);
     } else if (operador == '/'){
         if (operando2 == 0){
-            fprintf(stderr, "No se puede dividir por cero\n");
+            fprintf(stderr, "No se puede dividir por cero!\n");
             return 0;
         }
         //resultado = divi(operando1, operando2);
@@ -62,6 +62,7 @@ int CalcularOperacion(int operando1, char operador, int operando2){
         printf("\nPresione CTRL + C para salir. \nTambién puede realizar otra operación con el resultado (como '+ 1').\nO realizar una nueva operación (como '6 / 2').\n");
         printf("\nEl resultado es: %d\n", resultado);
         continua = true;
+        str = NULL;
         return resultado;
     }
 
@@ -91,11 +92,15 @@ void LeerPregunta(){
     if (ChequearRegex(patron)){
         continua = false;
         //printf("Operación nueva detectada\n");
-    } else if (ChequearRegex(patron_continuo)){
+    } else if (ChequearRegex(patron_continuo) && continua=true){
         continua = true;
         //printf("Operación continua detectada\n");
+    } else if (ChequearRegex(patron_continuo) && continua = false) {
+        printf("\nAntes de realizar una operación continua haga una operación nueva, como '2 * 2'\n");
+        return;
     } else {
-        printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2' por ejemplo.");
+        printf("Lo siento, mis respuestas son limitadas.\nAseguráte de escribir la operación como '1 + 2', con un espacio entre el signo y los numeros.");
+        return;
     }
     IdentificarNrosYOper();
     CalcularOperacion(nro1,oper,nro2);
@@ -103,7 +108,7 @@ void LeerPregunta(){
 
 int main (void){ 
     continua = false;
-    printf("Por favor, ingrese una operación matemática con espacios entre los numeros y el operando:\n");
+    printf("Ingrese una operación matemática con un espacio entre los numeros y el operador:\n");
     while(1){
         LeerPregunta();
     }
