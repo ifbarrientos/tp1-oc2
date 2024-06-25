@@ -12,7 +12,7 @@ const char *patron_continuo = "^[+\\*\\/-][[:space:]]-?[[:digit:]]{1,10}$";
 extern int sum(int a, int b);
 extern int res(int a, int b);
 extern int mul(int a, int b);
-//extern int divi(int a, int b);
+extern int divi(int a, int b);
 
 int nro1, nro2, resultado;
 bool continua;
@@ -57,14 +57,14 @@ int CalcularOperacion(int operando1, char operador, int operando2){
             fprintf(stderr, "No se puede dividir por cero!\n");
             return 0;
         }
-        //resultado = divi(operando1, operando2);
+        resultado = divi(operando1, operando2);
     }
-        printf("\nPresione CTRL + C para salir. \nTambién puede realizar otra operación con el resultado (como '+ 1').\nO realizar una nueva operación (como '6 / 2').\n");
-        printf("\nEl resultado es: %d\n", resultado);
-        continua = true;
-        str[0] = '\0';
-        return resultado;
-    }
+    printf("\nPresione CTRL + C para salir. \nTambién puede realizar otra operación con el resultado (como '+ 1').\nO realizar una nueva operación (como '6 / 2').\n");
+    printf("\nEl resultado es: %d\n", resultado);
+    continua = true;
+    str[0] = '\0';
+    return resultado;
+}
 
 void IdentificarNrosYOper(){
     if (continua) {
