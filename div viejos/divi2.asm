@@ -1,10 +1,10 @@
 section .text
-global divi
+global main
 
-divi:
+main:
     mov ebp, esp; for correct debugging
-    mov eax, [esp+4]
-    mov ebx, [esp+8]
+    mov eax, 10
+    mov ebx, 5
     mov ecx, 0
 
     mov esi, eax
@@ -20,6 +20,7 @@ divi:
     jl invertir_signo
 
 div_loop:
+; tengo que asegurarme de que ebx sea siempre positivo aca.
     cmp eax, ebx
     jb analizar_signo
     sub eax, ebx
@@ -41,4 +42,3 @@ invertir_signo:
 fin_div:
     mov eax, ecx
     ret
-
